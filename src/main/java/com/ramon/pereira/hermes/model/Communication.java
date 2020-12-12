@@ -29,29 +29,17 @@ public class Communication implements Serializable {
     @Column
     private Date createdAt;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "communications_channels",
-            joinColumns = @JoinColumn(name = "communication_id"),
-            inverseJoinColumns = @JoinColumn(name = "channel_id"))
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "communication")
     @JsonManagedReference
-    private List<Channel> channels;
+    private List<CommunicationChannel> channels;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "communications_events",
-            joinColumns = @JoinColumn(name = "communication_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "communication")
     @JsonManagedReference
-    private List<Event> events;
+    private List<CommunicationEvent> events;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "communications_recipients",
-            joinColumns = @JoinColumn(name = "communication_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipient_id"))
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "communication")
     @JsonManagedReference
-    private List<Recipient> recipients;
+    private List<CommunicationRecipient> recipients;
 
     @PrePersist
     protected void prePersist() {

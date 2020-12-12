@@ -27,9 +27,6 @@ public class Event implements Serializable {
     @Column
     private Date createdAt;
 
-    @ManyToMany(mappedBy = "events")
-    private List<Communication> communications;
-
     @PrePersist
     protected void prePersist() {
         createdAt = new Date();
