@@ -17,6 +17,8 @@ jobs:
           MYSQL_DATABASE: hermes
           MYSQL_USER: hermes
           MYSQL_PASSWORD: 'h3rm3s'
+          MYSQL_PORT: 3306
+          MYSQL_HOST: localhost
 
     steps:
 
