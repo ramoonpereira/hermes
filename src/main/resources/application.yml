@@ -2,7 +2,7 @@ app:
   env: ${HERMES_ENV:development}
   name: hermes
   description: Java Rest API- Communication Platform
-  version: 0.0.1
+  version: 1
   contact: Ramon Pereira
   url: https://www.linkedin.com/in/ramon-pereira-94a04b107/
   email: ramon.alves@live.com
