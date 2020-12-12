@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,6 +31,9 @@ public class Recipient implements Serializable {
 
     @Column
     private Date createdAt;
+
+    @ManyToMany(mappedBy = "recipients")
+    private List<Communication> communications;
 
     @PrePersist
     protected void prePersist() {

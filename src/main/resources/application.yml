@@ -9,7 +9,7 @@ app:
 spring:
   datasource:
     url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
-    username: ${HERMES_DATASOURCE_USERNAME:albumstore}
+    username: ${HERMES_DATASOURCE_USERNAME:hermes}
     password: ${HERMES_DATASOURCE_PASSWORD:h3rm3s}
   jpa:
     hibernate.ddl-auto: none
@@ -19,5 +19,5 @@ spring:
     check-location: true
     enabled: true
     url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
-    username: ${HERMES_DATASOURCE_USERNAME:albumstore}
+    username: ${HERMES_DATASOURCE_USERNAME:hermes}
     password: ${HERMES_DATASOURCE_PASSWORD:h3rm3s}
