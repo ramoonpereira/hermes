@@ -8,9 +8,9 @@ app:
   email: ramon.alves@live.com
 spring:
   datasource:
-    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3308/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
+    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
     username: ${HERMES_DATASOURCE_USERNAME:albumstore}
-    password: ${HERMES_DATASOURCE_PASSWORD:!@12QWqw}
+    password: ${HERMES_DATASOURCE_PASSWORD:h3rm3s}
   jpa:
     hibernate.ddl-auto: none
     show-sql: false
@@ -18,6 +18,6 @@ spring:
   flyway:
     check-location: true
     enabled: true
-    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3308/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
+    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
     username: ${HERMES_DATASOURCE_USERNAME:albumstore}
-    password: ${HERMES_DATASOURCE_PASSWORD:!@12QWqw}
+    password: ${HERMES_DATASOURCE_PASSWORD:h3rm3s}

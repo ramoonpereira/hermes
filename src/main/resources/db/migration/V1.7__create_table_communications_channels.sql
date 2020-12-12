@@ -1,0 +1,9 @@
+CREATE TABLE hermes.communications_channels (
+  id INT NOT NULL AUTO_INCREMENT,
+  channel_id INT NOT NULL,
+  communication_id INT NOT NULL,
+  created_at DATETIME NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_COMMUNICATIONS_CHANNEL_CHANNEL FOREIGN KEY (channel_id) REFERENCES channels (id),
+  CONSTRAINT FK_COMMUNICATIONS_CHANNEL_COMMUNICATION FOREIGN KEY (communication_id) REFERENCES communications (id)
+);

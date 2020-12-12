@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: hermes
+      MYSQL_DATABASE: hermes
+      MYSQL_USER: hermes
+      MYSQL_PASSWORD: 'h3rm3s'
+    ports:
+      - "3306:3306"
+    volumes:
+      - 'docker_data:/data/var/lib/mysql'
+
+volumes:
+  docker_data:
