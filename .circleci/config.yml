@@ -11,7 +11,7 @@ jobs:
           MYSQL_DATABASE: hermes
           MYSQL_PORT: 3306
           MYSQL_HOST: localhost
-      - image: mysql:latest
+      - image: mysql:5.7
         environment:
           MYSQL_ROOT_PASSWORD: hermes
           MYSQL_DATABASE: hermes
