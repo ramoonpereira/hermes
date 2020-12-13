@@ -2,18 +2,18 @@ package com.ramon.pereira.hermes.business.impl;
 
 import com.ramon.pereira.hermes.business.CommunicationBusiness;
 import com.ramon.pereira.hermes.exception.ChannelNotFoundException;
+import com.ramon.pereira.hermes.exception.CommunicationCanceledException;
+import com.ramon.pereira.hermes.exception.CommunicationNotFoundException;
 import com.ramon.pereira.hermes.exception.EventNotFoundException;
 import com.ramon.pereira.hermes.model.*;
-import com.ramon.pereira.hermes.repository.ChannelRepository;
-import com.ramon.pereira.hermes.repository.CommunicationRepository;
-import com.ramon.pereira.hermes.repository.EventRepository;
-import com.ramon.pereira.hermes.repository.RecipientRepository;
+import com.ramon.pereira.hermes.repository.*;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CommunicationBusinessImpl implements CommunicationBusiness {
@@ -30,6 +30,9 @@ public class CommunicationBusinessImpl implements CommunicationBusiness {
     @Autowired
     private RecipientRepository recipientRepository;
 
+    @Autowired
+    private CommunicationEventRepository communicationEventRepository;
+
     @Override
     public Optional<Communication> create(@NonNull Communication communication) {
 
@@ -42,7 +45,7 @@ public class CommunicationBusinessImpl implements CommunicationBusiness {
 
         Event event = eventRepository.findByName(enEvent.SCHEDULED).orElseThrow(EventNotFoundException::new);
 
-        communication.setEvents(Collections.singletonList(CommunicationEvent.builder()
+        communication.setEvents(Set.of(CommunicationEvent.builder()
                 .event(event)
                 .communication(communication)
                 .build()));
@@ -80,5 +83,34 @@ public class CommunicationBusinessImpl implements CommunicationBusiness {
                     .build());
 
         return recipient;
+    }
+
+    @Override
+    public Optional<Communication> remove(@NonNull Integer id) {
+        Communication communication = communicationRepository.findById(id).orElseThrow(CommunicationNotFoundException::new);
+
+        checkCommunicationAlreadyCanceled(communication);
+
+        Event event = eventRepository.findByName(enEvent.CANCELED).orElseThrow(EventNotFoundException::new);
+
+        CommunicationEvent newEvent = CommunicationEvent.builder()
+                .event(event)
+                .communication(communication)
+                .build();
+
+        communicationEventRepository.saveAndFlush(newEvent);
+
+        communication.getEvents().add(newEvent);
+
+        return Optional.of(communication);
+    }
+
+    private void checkCommunicationAlreadyCanceled(Communication communication) {
+        boolean eventPresent = communication.getEvents()
+                .stream()
+                .anyMatch(event -> event.getEvent().getName() == enEvent.CANCELED);
+
+        if(eventPresent)
+            throw new CommunicationCanceledException();
     }
 }

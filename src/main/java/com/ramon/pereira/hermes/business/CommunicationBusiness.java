@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface CommunicationBusiness {
 
     Optional<Communication> create (@NonNull Communication communication);
+
+    Optional<Communication> remove (@NonNull Integer id);
 }

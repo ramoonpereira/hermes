@@ -9,23 +9,24 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class EventMapper {
-    public Optional<CommunicationEventResponseDto> serializeEventToResponseDto(@NonNull final Optional<Event> event) {
-        final Event model = event.get();
+    public Optional<CommunicationEventResponseDto> serializeEventToResponseDto(@NonNull final Optional<CommunicationEvent> event) {
+        final CommunicationEvent model = event.get();
         return Optional.of(CommunicationEventResponseDto.builder()
                 .id(model.getId())
-                .name(model.getName())
+                .name(model.getEvent().getName())
                 .createdAt(model.getCreatedAt())
                 .build());
     }
 
-    public Optional<List<CommunicationEventResponseDto>> serializeEventListToResponseDto(@NonNull final Optional<List<CommunicationEvent>> communicationEvents) {
+    public Optional<List<CommunicationEventResponseDto>> serializeEventListToResponseDto(@NonNull final Optional<Set<CommunicationEvent>> communicationEvents) {
         final var serializers = new ArrayList<CommunicationEventResponseDto>();
 
         communicationEvents.ifPresent(t -> t.forEach(event -> {
-            serializers.add(serializeEventToResponseDto(Optional.of(event.getEvent())).get());
+            serializers.add(serializeEventToResponseDto(Optional.of(event)).get());
         }));
 
         return Optional.of(serializers);

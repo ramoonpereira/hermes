@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,6 +15,17 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "communications", schema = "hermes")
+@NamedEntityGraph(name = "graph.communication.detail",
+        attributeNodes = {
+                @NamedAttributeNode(value = "channels", subgraph = "channels"),
+                @NamedAttributeNode(value = "events", subgraph = "events"),
+                @NamedAttributeNode(value = "recipients", subgraph = "recipients")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "channels", attributeNodes = @NamedAttributeNode("channel")),
+                @NamedSubgraph(name = "events", attributeNodes = @NamedAttributeNode("event")),
+                @NamedSubgraph(name = "recipients", attributeNodes = @NamedAttributeNode("recipient"))
+        })
 public class Communication implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,15 +42,15 @@ public class Communication implements Serializable {
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "communication")
     @JsonManagedReference
-    private List<CommunicationChannel> channels;
+    private Set<CommunicationChannel> channels;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "communication")
     @JsonManagedReference
-    private List<CommunicationEvent> events;
+    private Set<CommunicationEvent> events;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "communication")
     @JsonManagedReference
-    private List<CommunicationRecipient> recipients;
+    private Set<CommunicationRecipient> recipients;
 
     @PrePersist
     protected void prePersist() {

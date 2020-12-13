@@ -2,8 +2,11 @@ package com.ramon.pereira.hermes.api.v1.dtos.response;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ramon.pereira.hermes.model.enEvent;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +21,9 @@ public class CommunicationResponseDto {
     private Integer id;
 
     private String message;
+
+    @Enumerated(EnumType.STRING)
+    private enEvent status;
 
     @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
     private Date sendDate;

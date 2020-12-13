@@ -1,13 +1,17 @@
 package com.ramon.pereira.hermes.api.v1.mapper;
 
 import com.ramon.pereira.hermes.api.v1.dtos.request.CommunicationCreateRequestDto;
+import com.ramon.pereira.hermes.api.v1.dtos.response.CommunicationEventResponseDto;
 import com.ramon.pereira.hermes.api.v1.dtos.response.CommunicationResponseDto;
 import com.ramon.pereira.hermes.model.Communication;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class CommunicationMapper {
@@ -29,6 +33,10 @@ public class CommunicationMapper {
         return Optional.of(CommunicationResponseDto.builder()
                 .id(model.getId())
                 .message(model.getMessage())
+                .status(events.get().stream()
+                        .sorted(Comparator.comparing(CommunicationEventResponseDto::getCreatedAt).reversed())
+                        .collect(Collectors.toList())
+                        .get(0).getName())
                 .createdAt(model.getCreatedAt())
                 .sendDate(model.getSendDate())
                 .channels(channels.get())

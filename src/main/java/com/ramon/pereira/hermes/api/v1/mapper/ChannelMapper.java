@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class ChannelMapper {
@@ -22,7 +23,7 @@ public class ChannelMapper {
                 .build());
     }
 
-    public Optional<List<CommunicationChannelResponseDto>> serializeChannelListToResponseDto(@NonNull final Optional<List<CommunicationChannel>> communicationChannels) {
+    public Optional<List<CommunicationChannelResponseDto>> serializeChannelListToResponseDto(@NonNull final Optional<Set<CommunicationChannel>> communicationChannels) {
         final var serializers = new ArrayList<CommunicationChannelResponseDto>();
 
         communicationChannels.ifPresent(t -> t.forEach(channel -> {
@@ -41,13 +42,13 @@ public class ChannelMapper {
                 .build());
     }
 
-    public Optional<List<CommunicationChannel>> serializeChannelRequestListToModel(@NonNull final Optional<List<CommunicationChannelCreateRequestDto>> communicationChannelCreateRequestDtos) {
+    public Optional<Set<CommunicationChannel>> serializeChannelRequestListToModel(@NonNull final Optional<List<CommunicationChannelCreateRequestDto>> communicationChannelCreateRequestDtos) {
         final var serializers = new ArrayList<CommunicationChannel>();
 
         communicationChannelCreateRequestDtos.ifPresent(t -> t.forEach(channel -> {
             serializers.add(serializeChannelRequestToModel(Optional.of(channel)).get());
         }));
 
-        return Optional.of(serializers);
+        return Optional.of(Set.copyOf(serializers));
     }
 }

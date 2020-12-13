@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class RecipientMapper {
@@ -24,7 +25,7 @@ public class RecipientMapper {
                 .build());
     }
 
-    public Optional<List<CommunicationRecipientResponseDto>> serializeRecipientListToResponseDto(@NonNull final Optional<List<CommunicationRecipient>> communicationRecipients) {
+    public Optional<List<CommunicationRecipientResponseDto>> serializeRecipientListToResponseDto(@NonNull final Optional<Set<CommunicationRecipient>> communicationRecipients) {
         final var serializers = new ArrayList<CommunicationRecipientResponseDto>();
 
         communicationRecipients.ifPresent(t -> t.forEach(recipient -> {
@@ -45,13 +46,13 @@ public class RecipientMapper {
                 .build());
     }
 
-    public Optional<List<CommunicationRecipient>> serializeChannelRequestListToModel(@NonNull final Optional<List<CommunicationRecipientCreateRequestDto>> communicationRecipientCreateRequestDtos) {
+    public Optional<Set<CommunicationRecipient>> serializeChannelRequestListToModel(@NonNull final Optional<List<CommunicationRecipientCreateRequestDto>> communicationRecipientCreateRequestDtos) {
         final var serializers = new ArrayList<CommunicationRecipient>();
 
         communicationRecipientCreateRequestDtos.ifPresent(t -> t.forEach(recipient -> {
             serializers.add(serializeRecipientRequestToModel(Optional.of(recipient)).get());
         }));
 
-        return Optional.of(serializers);
+        return Optional.of(Set.copyOf(serializers));
     }
 }
