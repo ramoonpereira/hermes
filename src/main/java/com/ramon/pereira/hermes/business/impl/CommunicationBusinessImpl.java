@@ -113,4 +113,9 @@ public class CommunicationBusinessImpl implements CommunicationBusiness {
         if(eventPresent)
             throw new CommunicationCanceledException();
     }
+
+    @Override
+    public Optional<Communication> read(@NonNull Integer id) {
+        return Optional.of(communicationRepository.findById(id).orElseThrow(CommunicationNotFoundException::new));
+    }
 }

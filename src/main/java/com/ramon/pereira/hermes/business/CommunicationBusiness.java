@@ -10,4 +10,6 @@ public interface CommunicationBusiness {
     Optional<Communication> create (@NonNull Communication communication);
 
     Optional<Communication> remove (@NonNull Integer id);
+
+    Optional<Communication> read (@NonNull Integer id);
 }

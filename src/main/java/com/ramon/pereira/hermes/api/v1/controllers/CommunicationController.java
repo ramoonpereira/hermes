@@ -59,4 +59,20 @@ public class CommunicationController {
                         .remove(id)));
     }
 
+    @GetMapping("{id}")
+    @ResponseBody
+    @ApiOperation(value = "Get Communication", response = CommunicationResponseDto.class, produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    public ResponseEntity<Optional<CommunicationResponseDto>> read(@PathVariable  @Valid final Integer id) {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(communicationMapper.serializeToResponseDto(communicationBusiness
+                        .read(id)));
+    }
+
 }
