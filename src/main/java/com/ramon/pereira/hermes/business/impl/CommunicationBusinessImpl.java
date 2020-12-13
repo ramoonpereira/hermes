@@ -11,6 +11,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -40,12 +41,10 @@ public class CommunicationBusinessImpl implements CommunicationBusiness {
 
         Event event = eventRepository.findByName(enEvent.SCHEDULED).orElseThrow();
 
-        communication.getEvents().forEach(
-                ev -> {
-                    ev.setEvent(event);
-                    ev.setCommunication(communication);
-                }
-        );
+        communication.setEvents(Collections.singletonList(CommunicationEvent.builder()
+                .event(event)
+                .communication(communication)
+                .build()));
 
         communication.getRecipients().forEach(
                 rec -> {
@@ -65,12 +64,19 @@ public class CommunicationBusinessImpl implements CommunicationBusiness {
     private Recipient validRecipient(@NonNull final CommunicationRecipient communicationRecipient) {
         Recipient recipient = communicationRecipient.getRecipient();
 
-        recipient = recipientRepository.findOneByEmailOrPhone(recipient.getEmail(), recipient.getPhone())
-                .orElse(recipientRepository.saveAndFlush(Recipient.builder()
-                        .name(recipient.getName())
-                        .phone(recipient.getPhone())
-                        .email(recipient.getEmail())
-                        .build()));
+        recipientRepository.findOneByEmailOrPhone(recipient.getEmail(), recipient.getPhone()).ifPresent(
+                rec -> {
+                    recipient.setId(rec.getId());
+                    recipient.setCreatedAt(rec.getCreatedAt());
+                }
+        );
+
+        if (recipient.getId() == null)
+            return recipientRepository.saveAndFlush(Recipient.builder()
+                    .name(recipient.getName())
+                    .phone(recipient.getPhone())
+                    .email(recipient.getEmail())
+                    .build());
 
         return recipient;
     }
