@@ -11,6 +11,20 @@ services:
       - "3306:3306"
     volumes:
       - 'docker_data:/data/var/lib/mysql'
+  hermes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      HERMES_ENV: 'Development'
+      HERMES_DATASOURCE_URL: 'jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC'
+      HERMES_DATASOURCE_USERNAME: 'hermes'
+      HERMES_DATASOURCE_PASSWORD: 'h3rm3s'
+      HERMES_SECURITY_JWT_SECRET_KEY: 'stubjwt'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
 
 volumes:
   docker_data:
