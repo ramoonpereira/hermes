@@ -21,3 +21,5 @@ spring:
     url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
     username: ${HERMES_DATASOURCE_USERNAME:hermes}
     password: ${HERMES_DATASOURCE_PASSWORD:h3rm3s}
+jwt:
+  secretKey: ${HERMES_SECURITY_JWT_SECRET_KEY:stubJWT}
