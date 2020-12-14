@@ -21,10 +21,19 @@ IDE (IntelliJ)
 Docker/Docker Compose
 ```
 
+## Variáveis de Ambiente
+```sh
+HERMES_ENV - Ambiente
+HERMES_DATASOURCE_URL - URL JDBC 
+HERMES_DATASOURCE_USERNAME - Usuário DB
+HERMES_DATASOURCE_PASSWORD - Senha DB
+HERMES_SECURITY_JWT_SECRET_KEY - Secret Key JWT Token
+```
+
 **Executar o projeto:**
 
 ```sh
-Executar o comando 'docker-compose up -d' na raiz do projeto
+Executar na raiz o comando 'docker-compose up -d'
 Aplicação: disponível em porta 8080
 DB: disponível em porta 3306
 ```
@@ -35,7 +44,7 @@ DB: disponível em porta 3306
 
 ```sh
 https://jwt.io/
-Gerar conforme env - JWT_SECRET_KEY
+Gerar conforme secret - ENV - HERMES_SECURITY_JWT_SECRET_KEY
 ```
 
 ## WEB API
