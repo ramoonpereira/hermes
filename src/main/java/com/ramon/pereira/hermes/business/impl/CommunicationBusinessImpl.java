@@ -11,9 +11,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CommunicationBusinessImpl implements CommunicationBusiness {
@@ -100,7 +98,10 @@ public class CommunicationBusinessImpl implements CommunicationBusiness {
 
         communicationEventRepository.saveAndFlush(newEvent);
 
-        communication.getEvents().add(newEvent);
+        List<CommunicationEvent> communicationEvents = new ArrayList<CommunicationEvent>();
+        communicationEvents.add(newEvent);
+        communicationEvents.addAll(communication.getEvents());
+        communication.setEvents(Set.copyOf(communicationEvents));
 
         return Optional.of(communication);
     }
