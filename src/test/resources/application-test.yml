@@ -8,7 +8,7 @@ app:
   email: ramon.alves@live.com
 spring:
   datasource:
-    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
+    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=America/Sao_Paulo}
     username: ${HERMES_DATASOURCE_USERNAME:hermes}
     password: ${HERMES_DATASOURCE_PASSWORD:h3rm3s}
   jpa:
@@ -18,7 +18,7 @@ spring:
   flyway:
     check-location: true
     enabled: true
-    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
+    url: ${HERMES_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=America/Sao_Paulo}
     username: ${HERMES_DATASOURCE_USERNAME:hermes}
     password: ${HERMES_DATASOURCE_PASSWORD:h3rm3s}
 jwt:

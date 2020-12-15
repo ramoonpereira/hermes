@@ -20,7 +20,7 @@ services:
       HERMES_DATASOURCE_URL: 'jdbc:mysql://db:3306/hermes?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=America/Sao_Paulo'
       HERMES_DATASOURCE_USERNAME: 'hermes'
       HERMES_DATASOURCE_PASSWORD: 'h3rm3s'
-      HERMES_SECURITY_JWT_SECRET_KEY: 'stubjwt'
+      HERMES_SECURITY_JWT_SECRET_KEY: 'stubJWT'
     ports:
       - '8080:8080'
     depends_on:
