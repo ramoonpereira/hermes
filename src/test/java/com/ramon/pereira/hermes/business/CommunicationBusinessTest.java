@@ -1,15 +1,19 @@
 package com.ramon.pereira.hermes.business;
 
 import com.ramon.pereira.hermes.config.SpringTestConfiguration;
+import com.ramon.pereira.hermes.exception.ChannelNotFoundException;
 import com.ramon.pereira.hermes.exception.CommunicationCanceledException;
 import com.ramon.pereira.hermes.exception.CommunicationNotFoundException;
 import com.ramon.pereira.hermes.exception.EventNotFoundException;
 import com.ramon.pereira.hermes.model.Communication;
 import com.ramon.pereira.hermes.model.CommunicationEvent;
+import com.ramon.pereira.hermes.model.enChannel;
 import com.ramon.pereira.hermes.model.enEvent;
 import com.ramon.pereira.hermes.repository.*;
+import com.ramon.pereira.hermes.seed.ChannelSeeder;
 import com.ramon.pereira.hermes.seed.CommunicationSeeder;
 import com.ramon.pereira.hermes.seed.EventSeeder;
+import com.ramon.pereira.hermes.seed.RecipientSeeder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -113,6 +117,78 @@ public class CommunicationBusinessTest {
         Assert.assertTrue(communication.get().getEvents()
                 .stream()
                 .anyMatch(event -> event.getEvent().getName() == enEvent.CANCELED));
+    }
+
+    @Test(expected = ChannelNotFoundException.class)
+    public void createCommunicationChannelNotExist() {
+        Mockito.when(this.channelRepository.findByName(ArgumentMatchers.any(enChannel.class)))
+                .thenReturn(Optional.empty());
+
+        this.communicationBusiness.create(CommunicationSeeder.communicationSeed(1));
+    }
+
+    @Test(expected = EventNotFoundException.class)
+    public void createCommunicationEventNotExist() {
+        Mockito.when(this.channelRepository.findByName(ArgumentMatchers.any(enChannel.class)))
+                .thenReturn(Optional.of(ChannelSeeder.channelSeed(1, enChannel.WHATSAPP)));
+
+        Mockito.when(this.eventRepository.findByName(enEvent.SCHEDULED))
+                .thenReturn(Optional.empty());
+
+        this.communicationBusiness.create(CommunicationSeeder.communicationSeed(1));
+    }
+
+    @Test
+    public void createCommunicationRecipientExist() {
+        Mockito.when(this.channelRepository.findByName(ArgumentMatchers.any(enChannel.class)))
+                .thenReturn(Optional.of(ChannelSeeder.channelSeed(1, enChannel.WHATSAPP)));
+
+        Mockito.when(this.eventRepository.findByName(enEvent.SCHEDULED))
+                .thenReturn(Optional.of(EventSeeder.eventSeed(1, enEvent.SCHEDULED)));
+
+        Mockito.when(this.recipientRepository.findOneByEmailOrPhone(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
+                .thenReturn(Optional.of(RecipientSeeder.recipientSeed(1)));
+
+        Communication communication = CommunicationSeeder.communicationSeed(1);
+
+        Mockito.when(this.communicationRepository.saveAndFlush(ArgumentMatchers.any(Communication.class)))
+                .thenReturn(communication);
+
+        Optional<Communication> communicationCreated = this.communicationBusiness.create(communication);
+
+        Assert.assertTrue(communicationCreated.isPresent());
+        Assert.assertNotNull(communicationCreated.get().getId());
+        Assert.assertFalse(communicationCreated.get().getEvents().isEmpty());
+        Assert.assertFalse(communicationCreated.get().getChannels().isEmpty());
+        Assert.assertFalse(communicationCreated.get().getRecipients().isEmpty());
+    }
+
+    @Test
+    public void createCommunicationRecipientNotExit() {
+        Mockito.when(this.channelRepository.findByName(ArgumentMatchers.any(enChannel.class)))
+                .thenReturn(Optional.of(ChannelSeeder.channelSeed(1, enChannel.WHATSAPP)));
+
+        Mockito.when(this.eventRepository.findByName(enEvent.SCHEDULED))
+                .thenReturn(Optional.of(EventSeeder.eventSeed(1, enEvent.SCHEDULED)));
+
+        Mockito.when(this.recipientRepository.findOneByEmailOrPhone(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
+                .thenReturn(Optional.empty());
+
+        Mockito.when(this.recipientRepository.saveAndFlush(ArgumentMatchers.any()))
+                .thenReturn(RecipientSeeder.recipientSeed(1));
+
+        Communication communication = CommunicationSeeder.communicationSeed(1);
+
+        Mockito.when(this.communicationRepository.saveAndFlush(ArgumentMatchers.any(Communication.class)))
+                .thenReturn(communication);
+
+        Optional<Communication> communicationCreated = this.communicationBusiness.create(communication);
+
+        Assert.assertTrue(communicationCreated.isPresent());
+        Assert.assertNotNull(communicationCreated.get().getId());
+        Assert.assertFalse(communicationCreated.get().getEvents().isEmpty());
+        Assert.assertFalse(communicationCreated.get().getChannels().isEmpty());
+        Assert.assertFalse(communicationCreated.get().getRecipients().isEmpty());
     }
 
 }

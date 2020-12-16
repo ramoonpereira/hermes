@@ -1,7 +1,6 @@
 package com.ramon.pereira.hermes.seed;
 
 import com.ramon.pereira.hermes.model.Communication;
-import com.ramon.pereira.hermes.model.CommunicationEvent;
 import com.ramon.pereira.hermes.model.enEvent;
 import lombok.NonNull;
 
@@ -15,18 +14,14 @@ public class CommunicationSeeder extends SeederBase {
                 .id(id)
                 .message(faker().bothify("##########"))
                 .events(Set.of(CommunicationEventSeeder.communicationEventSeed(id,event)))
+                .channels(Set.of(CommunicationChannelSeeder.communicationChannelSeed(id)))
+                .recipients(Set.of(CommunicationRecipientSeeder.communicationRecipientSeed(id)))
                 .sendDate(new Date())
                 .createdAt(new Date())
                 .build();
     }
     public static Communication communicationSeed(@NonNull final Integer id){
-        return Communication.builder()
-                .id(id)
-                .message(faker().bothify("##########"))
-                .events(Set.of(CommunicationEventSeeder.communicationEventSeed(id, enEvent.SCHEDULED)))
-                .sendDate(new Date())
-                .createdAt(new Date())
-                .build();
+        return communicationSeed(id, enEvent.SCHEDULED);
     }
 
 }

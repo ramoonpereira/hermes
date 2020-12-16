@@ -1,6 +1,5 @@
 package com.ramon.pereira.hermes.seed;
 
-import com.ramon.pereira.hermes.model.Communication;
 import com.ramon.pereira.hermes.model.Event;
 import com.ramon.pereira.hermes.model.enEvent;
 import lombok.NonNull;
