@@ -32,11 +32,10 @@ HERMES_SECURITY_JWT_SECRET_KEY - Secret Key JWT Token
 
 ## Estrutura - Banco de dados
 ```sh
-Aplicação fica responsável por executar o db.migrations gerando a database,tabelas e registros necessários.
+A aplicação fica responsável por executar o db.migrations gerando a database,tabelas e registros necessários.
 ```
 
-**Executar o projeto:**
-
+## Execução do Projeto
 ```sh
 Executar na raiz o comando 'docker-compose up -d'
 Aplicação: disponível em porta 8080
@@ -46,7 +45,6 @@ DB: disponível em porta 3306
 ## Autenticação
 
 **Obtendo um JWT Token para autenticar na API:**
-
 ```sh
 https://jwt.io/
 Gerar conforme secret - ENV - HERMES_SECURITY_JWT_SECRET_KEY
