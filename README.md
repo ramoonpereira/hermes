@@ -30,6 +30,11 @@ HERMES_DATASOURCE_PASSWORD - Senha DB
 HERMES_SECURITY_JWT_SECRET_KEY - Secret Key JWT Token
 ```
 
+## Estrutura - Banco de dados
+```sh
+Aplicação fica responsável por executar o db.migrations gerando a database,tabelas e registros necessários.
+```
+
 **Executar o projeto:**
 
 ```sh
